@@ -54,10 +54,10 @@
   }
 
   body {
-    @apply text-foreground antialiased;
+    @apply bg-[#ececec] text-foreground antialiased;
   }
 }
 
 .container {
-  @apply mx-auto w-full max-w-[1200px] px-5;
+  @apply mx-auto w-full px-5;
 }
