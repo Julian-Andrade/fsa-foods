@@ -57,3 +57,7 @@
     @apply text-foreground antialiased;
   }
 }
+
+.container {
+  @apply mx-auto w-full max-w-[1200px] px-5;
+}
