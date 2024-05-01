@@ -1,32 +1,35 @@
+// Next
+import Image from 'next/image'
 // Components
-import CategoryList from './_components/category-list'
 import Header from './_components/header'
 import Search from './_components/search'
-
-// Image
-import Image from 'next/image'
+import CategoryList from './_components/category-list'
+import ProductList from './_components/product-list'
+import BadgeTitle from './_components/badge-title'
 
 const Home = () => {
   return (
-    <>
-      <div className="container">
-        <Header />
+    <div className="container">
+      <Header />
 
-        <Search />
+      <Search />
 
-        <CategoryList />
+      <CategoryList />
 
-        <Image
-          src={'/banner_promo_01.png'}
-          alt="banner de desconto 1"
-          width={0}
-          height={0}
-          className="h-auto w-full object-contain"
-          sizes="100vw"
-          quality={100}
-        />
-      </div>
-    </>
+      <Image
+        src={'/banner_promo_01.png'}
+        alt="até 30% de desconto em pizzas"
+        width={0}
+        height={0}
+        className="mb-6 h-auto w-full object-contain"
+        sizes="100vw"
+        quality={100}
+      />
+
+      <BadgeTitle title="Produtos Recomendados" />
+
+      <ProductList />
+    </div>
   )
 }
 

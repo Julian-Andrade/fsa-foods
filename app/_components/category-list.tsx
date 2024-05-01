@@ -1,6 +1,6 @@
-// # Prisma
+// Prisma
 import { db } from '../_lib/prisma'
-// # Components
+// Components
 import CategoryItem from './category-item'
 
 const CategoryList = async () => {

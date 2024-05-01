@@ -1,6 +1,6 @@
-// # Prisma
+// Prisma
 import { Category } from '@prisma/client'
-// # Next
+// Next
 import Image from 'next/image'
 
 interface CategoryItemProps {
