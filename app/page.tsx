@@ -7,6 +7,7 @@ import PromoBanner from './_components/promo-banner'
 import CategoryList from './_components/category-list'
 import ProductList from './_components/product-list'
 import BadgeTitle from './_components/badge-title'
+import RestaurantList from './_components/restaurant-list'
 
 const Home = async () => {
   const products = await db.product.findMany({
@@ -48,6 +49,8 @@ const Home = async () => {
       />
 
       <BadgeTitle title="Restaurantes Recomendados" />
+
+      <RestaurantList />
     </div>
   )
 }
