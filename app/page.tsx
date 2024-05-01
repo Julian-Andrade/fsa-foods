@@ -1,10 +1,9 @@
-// Next
-import Image from 'next/image'
 // Prisma
 import { db } from './_lib/prisma'
 // Components
 import Header from './_components/header'
 import Search from './_components/search'
+import PromoBanner from './_components/promo-banner'
 import CategoryList from './_components/category-list'
 import ProductList from './_components/product-list'
 import BadgeTitle from './_components/badge-title'
@@ -34,19 +33,21 @@ const Home = async () => {
 
       <CategoryList />
 
-      <Image
+      <PromoBanner
         src={'/banner_promo_01.png'}
-        alt="até 30% de desconto em pizzas"
-        width={0}
-        height={0}
-        className="mb-6 h-auto w-full object-contain"
-        sizes="100vw"
-        quality={100}
+        alt="até 30% de desconto em pizzas."
       />
 
       <BadgeTitle title="Produtos Recomendados" />
 
       <ProductList products={products} />
+
+      <PromoBanner
+        src={'/banner_promo_02.png'}
+        alt="a partir de R$ 17,90 em lanches."
+      />
+
+      <BadgeTitle title="Restaurantes Recomendados" />
     </div>
   )
 }
