@@ -13,7 +13,7 @@ const Home = async () => {
   const products = await db.product.findMany({
     where: {
       discountPercentage: {
-        gte: 0,
+        gt: 0,
       },
     },
     take: 10,
