@@ -161,6 +161,11 @@ const ProductDetails = ({
         </p>
         <ProductList products={complementaryProducts} />
       </div>
+
+      {/* Botão de Adicionar à sacola */}
+      <div className="mt-6">
+        <Button className="w-full font-semibold">Adicionar à sacola</Button>
+      </div>
     </div>
   )
 }
