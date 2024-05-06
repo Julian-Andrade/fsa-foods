@@ -8,7 +8,7 @@ export function formatCurrencyToBrazil(value: number) {
   })
 }
 
-export const CalculateProductTotalPrice = (product: Product) => {
+export const calculateProductTotalPrice = (product: Product) => {
   if (product.discountPercentage === 0) {
     return formatCurrencyToBrazil(Number(product.price))
   }
