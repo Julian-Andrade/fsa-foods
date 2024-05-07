@@ -9,20 +9,15 @@ import { Prisma } from '@prisma/client'
 // Components
 import BadgeDiscount from '@/app/_components/badge-discount'
 import { Button } from '@/app/_components/ui/button'
-import { Card } from '@/app/_components/ui/card'
 // Helpers
 import {
   calculateProductTotalPrice,
   formatCurrencyToBrazil,
 } from '@/app/_helpers/price'
 // Icons
-import {
-  BikeIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  TimerIcon,
-} from 'lucide-react'
+import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import ProductList from '@/app/_components/product-list'
+import DeliveryInfo from '@/app/_components/delivery-info'
 
 interface ProductDetailsProps {
   product: Prisma.ProductGetPayload<{
@@ -113,39 +108,7 @@ const ProductDetails = ({
       </div>
 
       {/* Informações de Entrega */}
-      <Card className="mt-6 border border-muted-foreground bg-[#ececec] p-5">
-        <div className="flex justify-around">
-          <div className="flex flex-col items-center gap-1">
-            <div className="flex gap-1 text-sm text-muted-foreground">
-              Frete
-              <BikeIcon size={18} />
-            </div>
-            <div>
-              {Number(product.restaurant.deliveryFee) === 0 ? (
-                <span className="text-xs font-bold">Entrega Grátis</span>
-              ) : (
-                <span className="text-xs font-bold">
-                  {formatCurrencyToBrazil(
-                    Number(product.restaurant.deliveryFee),
-                  )}
-                </span>
-              )}
-            </div>
-          </div>
-
-          <div className="flex flex-col items-center gap-1">
-            <div className="flex gap-1 text-sm text-muted-foreground">
-              Entrega
-              <TimerIcon size={18} />
-            </div>
-            <div>
-              <span className="text-xs font-bold">
-                {product.restaurant.deliveryTimeMinutes} min
-              </span>
-            </div>
-          </div>
-        </div>
-      </Card>
+      <DeliveryInfo restaurant={product.restaurant} />
 
       {/* Descrição do Produto */}
       <div className="flex flex-col gap-2">
