@@ -39,7 +39,12 @@ const Home = async () => {
         alt="até 30% de desconto em pizzas."
       />
 
-      <BadgeTitle title="Produtos Recomendados" />
+      <BadgeTitle
+        title="Produtos Recomendados"
+        variant="button"
+        nameButton="Ver todos"
+        href=""
+      />
 
       <ProductList products={products} />
 
@@ -48,7 +53,12 @@ const Home = async () => {
         alt="a partir de R$ 17,90 em lanches."
       />
 
-      <BadgeTitle title="Restaurantes Recomendados" />
+      <BadgeTitle
+        title="Restaurantes Recomendados"
+        variant="button"
+        nameButton="Ver todos"
+        href={`/restaurants/recommended`}
+      />
 
       <RestaurantList />
     </div>

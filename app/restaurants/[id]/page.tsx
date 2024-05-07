@@ -107,7 +107,7 @@ const RestaurantPage = async ({ params: { id } }: RestaurantPageProps) => {
 
         {/* Mais Pedidos */}
         <div className="mt-6">
-          <BadgeTitle title="Mais Pedidos" variant="noButton" />
+          <BadgeTitle title="Mais Pedidos" variant="noButton" href="" />
 
           <ProductList products={restaurant.product} />
         </div>
@@ -116,7 +116,7 @@ const RestaurantPage = async ({ params: { id } }: RestaurantPageProps) => {
         <div className="mt-6">
           {restaurant.categories.map((category) => (
             <div key={category.id}>
-              <BadgeTitle title={category.name} variant="noButton" />
+              <BadgeTitle title={category.name} variant="noButton" href="" />
               <ProductList products={category.product} />
             </div>
           ))}
