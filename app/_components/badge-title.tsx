@@ -26,15 +26,16 @@ const BadgeTitle = ({
     <div className={cn('flex items-center justify-between', className)}>
       <h2 className="gap-1 font-bold">{title}</h2>
       {variant === 'button' ? (
-        <Link href={href}>
-          <Button
-            className="flex h-0 items-center p-0 text-primary hover:bg-transparent"
-            variant={'ghost'}
-          >
+        <Button
+          className="flex h-0 items-center p-0 text-primary hover:bg-transparent"
+          variant={'ghost'}
+          asChild
+        >
+          <Link href={href}>
             {nameButton}
             <ChevronRight size={16} />
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       ) : (
         ''
       )}
