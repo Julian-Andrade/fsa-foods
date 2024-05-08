@@ -43,7 +43,7 @@ const Home = async () => {
         title="Produtos Recomendados"
         variant="button"
         nameButton="Ver todos"
-        href={`/categories/`}
+        href={`/products/recommended`}
       />
 
       <ProductList products={products} />
