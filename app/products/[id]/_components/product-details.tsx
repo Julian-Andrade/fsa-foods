@@ -1,14 +1,23 @@
 'use client'
 
 // React
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 // Next
 import Image from 'next/image'
+// Contexts
+import { CartContext } from '@/app/_context/cart'
 // Prisma
 import { Prisma } from '@prisma/client'
 // Components
 import BadgeDiscount from '@/app/_components/badge-discount'
 import { Button } from '@/app/_components/ui/button'
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from '@/app/_components/ui/sheet'
+import Cart from '@/app/_components/cart'
 // Helpers
 import {
   calculateProductTotalPrice,
@@ -37,6 +46,15 @@ const ProductDetails = ({
   complementaryProducts,
 }: ProductDetailsProps) => {
   const [productQuantity, setProductQuantity] = useState(1)
+  const [isCartOpen, setIsCartOpen] = useState(false)
+
+  const { addProductToCart } = useContext(CartContext)
+
+  const handleAddToCart = () => {
+    addProductToCart(product, productQuantity)
+
+    setIsCartOpen(true)
+  }
 
   const handleIncreaceProductQuantity = () => {
     setProductQuantity((state) => state + 1)
@@ -52,84 +70,97 @@ const ProductDetails = ({
   }
 
   return (
-    <div className="relative z-50 mt-[-1.5rem] rounded-tl-3xl rounded-tr-3xl bg-[#ececec] p-5">
-      {/* Produto */}
-      <div className="flex items-center gap-2">
-        <div className="relative h-6 w-6">
-          <Image
-            src={product.restaurant.imageUrl}
-            alt={product.restaurant.name}
-            fill
-            className="rounded-full object-cover"
-          />
+    <>
+      <div className="relative z-50 mt-[-1.5rem] rounded-tl-3xl rounded-tr-3xl bg-[#ececec] p-5">
+        {/* Produto */}
+        <div className="flex items-center gap-2">
+          <div className="relative h-6 w-6">
+            <Image
+              src={product.restaurant.imageUrl}
+              alt={product.restaurant.name}
+              fill
+              className="rounded-full object-cover"
+            />
+          </div>
+          <span className="text-xs text-muted-foreground">
+            {product.restaurant.name}
+          </span>
         </div>
-        <span className="text-xs text-muted-foreground">
-          {product.restaurant.name}
-        </span>
-      </div>
 
-      <h1 className="text-xl font-bold">{product.name}</h1>
+        <h1 className="text-xl font-bold">{product.name}</h1>
 
-      {/* Preço c/ Desconto */}
-      <div className="mt-4 flex justify-between">
-        <div>
-          <div className="flex items-center gap-2">
-            <h2 className="text-xl font-bold">
-              {calculateProductTotalPrice(product)}
-            </h2>
+        {/* Preço c/ Desconto */}
+        <div className="mt-4 flex justify-between">
+          <div>
+            <div className="flex items-center gap-2">
+              <h2 className="text-xl font-bold">
+                {calculateProductTotalPrice(product)}
+              </h2>
+              {product.discountPercentage > 0 && (
+                <BadgeDiscount product={product} />
+              )}
+            </div>
+
+            {/* Preço Original */}
             {product.discountPercentage > 0 && (
-              <BadgeDiscount product={product} />
+              <p className="text-sm text-muted-foreground line-through">
+                De: {formatCurrencyToBrazil(Number(product.price))}
+              </p>
             )}
           </div>
 
-          {/* Preço Original */}
-          {product.discountPercentage > 0 && (
-            <p className="text-sm text-muted-foreground line-through">
-              De: {formatCurrencyToBrazil(Number(product.price))}
-            </p>
-          )}
+          {/* Quantidade */}
+          <div className="flex items-center gap-3 text-center">
+            <Button
+              size="icon"
+              variant={'ghost'}
+              className="border border-muted-foreground"
+              onClick={handleDecreaseProductQuantity}
+            >
+              <ChevronLeftIcon />
+            </Button>
+            <span className="w-4">{productQuantity}</span>
+            <Button size="icon" onClick={handleIncreaceProductQuantity}>
+              <ChevronRightIcon />
+            </Button>
+          </div>
         </div>
 
-        {/* Quantidade */}
-        <div className="flex items-center gap-3 text-center">
-          <Button
-            size="icon"
-            variant={'ghost'}
-            className="border border-muted-foreground"
-            onClick={handleDecreaseProductQuantity}
-          >
-            <ChevronLeftIcon />
-          </Button>
-          <span className="w-4">{productQuantity}</span>
-          <Button size="icon" onClick={handleIncreaceProductQuantity}>
-            <ChevronRightIcon />
+        {/* Informações de Entrega */}
+        <DeliveryInfo restaurant={product.restaurant} />
+
+        {/* Descrição do Produto */}
+        <div className="flex flex-col gap-2">
+          <h3 className="mt-6 font-bold">Descrição</h3>
+          <p className="text-sm text-muted-foreground">{product.description}</p>
+        </div>
+
+        {/* Outra Categoria */}
+        <div className="flex flex-col gap-2">
+          <h3 className="mt-6 font-bold">Bebidas</h3>
+          <p className="text-sm text-muted-foreground">
+            Adicione uma bebida ao seu pedido
+          </p>
+          <ProductList products={complementaryProducts} />
+        </div>
+
+        {/* Botão de Adicionar à sacola */}
+        <div className="mt-6">
+          <Button className="w-full font-semibold" onClick={handleAddToCart}>
+            Adicionar à sacola
           </Button>
         </div>
       </div>
 
-      {/* Informações de Entrega */}
-      <DeliveryInfo restaurant={product.restaurant} />
-
-      {/* Descrição do Produto */}
-      <div className="flex flex-col gap-2">
-        <h3 className="mt-6 font-bold">Descrição</h3>
-        <p className="text-sm text-muted-foreground">{product.description}</p>
-      </div>
-
-      {/* Outra Categoria */}
-      <div className="flex flex-col gap-2">
-        <h3 className="mt-6 font-bold">Bebidas</h3>
-        <p className="text-sm text-muted-foreground">
-          Adicione uma bebida ao seu pedido
-        </p>
-        <ProductList products={complementaryProducts} />
-      </div>
-
-      {/* Botão de Adicionar à sacola */}
-      <div className="mt-6">
-        <Button className="w-full font-semibold">Adicionar à sacola</Button>
-      </div>
-    </div>
+      <Sheet open={isCartOpen} onOpenChange={setIsCartOpen}>
+        <SheetContent className="w-[80vw]">
+          <SheetHeader>
+            <SheetTitle className="text-left">Sacola</SheetTitle>
+          </SheetHeader>
+          <Cart />
+        </SheetContent>
+      </Sheet>
+    </>
   )
 }
 
