@@ -18,6 +18,16 @@ import {
   SheetTitle,
 } from '@/app/_components/ui/sheet'
 import Cart from '@/app/_components/cart'
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/app/_components/ui/alert-dialog'
 // Helpers
 import {
   calculateProductTotalPrice,
@@ -45,23 +55,41 @@ const ProductDetails = ({
   product,
   complementaryProducts,
 }: ProductDetailsProps) => {
-  const [productQuantity, setProductQuantity] = useState(1)
+  const [quantity, setQuantity] = useState(1)
   const [isCartOpen, setIsCartOpen] = useState(false)
+  const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] =
+    useState(false)
 
-  const { addProductToCart } = useContext(CartContext)
+  const { addProductToCart, products } = useContext(CartContext)
 
-  const handleAddToCart = () => {
-    addProductToCart(product, productQuantity)
+  const addToCart = ({ emptyCart }: { emptyCart?: boolean }) => {
+    addProductToCart({ product, quantity, emptyCart })
 
     setIsCartOpen(true)
   }
 
+  const handleAddToCart = () => {
+    // Verifica se há algum produto de outro restaurante no carrinho
+    const hasDifferentRestaurantProduct = products.some(
+      (cartProduct) => cartProduct.restaurantId !== product.restaurantId,
+    )
+
+    // Se houver algum produto, abrir um aviso
+    if (hasDifferentRestaurantProduct) {
+      return setIsConfirmationDialogOpen(true)
+    }
+
+    addToCart({
+      emptyCart: false,
+    })
+  }
+
   const handleIncreaceProductQuantity = () => {
-    setProductQuantity((state) => state + 1)
+    setQuantity((state) => state + 1)
   }
 
   const handleDecreaseProductQuantity = () => {
-    setProductQuantity((state) => {
+    setQuantity((state) => {
       if (state === 1) {
         return 1
       }
@@ -94,7 +122,7 @@ const ProductDetails = ({
           <div>
             <div className="flex items-center gap-2">
               <h2 className="text-xl font-bold">
-                {calculateProductTotalPrice(product)}
+                {formatCurrencyToBrazil(calculateProductTotalPrice(product))}
               </h2>
               {product.discountPercentage > 0 && (
                 <BadgeDiscount product={product} />
@@ -119,7 +147,7 @@ const ProductDetails = ({
             >
               <ChevronLeftIcon />
             </Button>
-            <span className="w-4">{productQuantity}</span>
+            <span className="w-4">{quantity}</span>
             <Button size="icon" onClick={handleIncreaceProductQuantity}>
               <ChevronRightIcon />
             </Button>
@@ -160,6 +188,30 @@ const ProductDetails = ({
           <Cart />
         </SheetContent>
       </Sheet>
+
+      <AlertDialog
+        open={isConfirmationDialogOpen}
+        onOpenChange={setIsConfirmationDialogOpen}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              Deseja realmente adicionar o produto?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              Caso escolha adicionar produto de restaurante diferente,
+              acarretará na criação de uma nova sacola referente ao restaurante
+              escolhido.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction onClick={() => addToCart({ emptyCart: true })}>
+              Adicionar
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   )
 }

@@ -60,7 +60,7 @@ const ProductItem = ({ product, className }: ProductItemProps) => {
             </span>
             {product.discountPercentage > 0 && (
               <span className="text-xs text-muted-foreground line-through">
-                {calculateProductTotalPrice(product)}
+                {formatCurrencyToBrazil(calculateProductTotalPrice(product))}
               </span>
             )}
           </div>
