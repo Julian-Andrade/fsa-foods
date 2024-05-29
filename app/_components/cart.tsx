@@ -2,11 +2,13 @@
 import { useContext, useState } from 'react'
 // Next
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 // Contexts
 import { CartContext } from '../_context/cart'
 // Components
 import CartItem from './cart-item'
 import { Card, CardContent } from './ui/card'
+import { toast } from 'sonner'
 // Helpers
 import { formatCurrencyToBrazil } from '../_helpers/price'
 import { Separator } from '@radix-ui/react-separator'
@@ -27,7 +29,14 @@ import {
   AlertDialogTitle,
 } from './ui/alert-dialog'
 
-const Cart = () => {
+interface CartProps {
+  // eslint-disable-next-line no-unused-vars
+  setIsOpen: (isOpen: boolean) => void
+}
+
+const Cart = ({ setIsOpen }: CartProps) => {
+  const router = useRouter()
+
   const [isSubmitingLoading, setIsSubmitingLoading] = useState(false)
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false)
 
@@ -64,6 +73,17 @@ const Cart = () => {
               quantity: product.quantity,
             })),
           },
+        },
+      })
+
+      clearCart()
+      setIsOpen(false)
+
+      toast('Pedido realizado com sucesso', {
+        description: 'Acompanhe os pedidos realizados através dos seus pedidos',
+        action: {
+          label: 'Meus pedidos',
+          onClick: () => router.push('/my-orders'),
         },
       })
     } catch (error) {
@@ -163,7 +183,7 @@ const Cart = () => {
             <AlertDialogCancel>Cancelar</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleFinishedOrder}
-              disabled={isConfirmDialogOpen}
+              disabled={isSubmitingLoading}
             >
               {isSubmitingLoading && (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
