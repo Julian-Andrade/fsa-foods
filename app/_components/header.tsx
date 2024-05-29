@@ -59,7 +59,7 @@ const Header = () => {
           {status === 'authenticated' ? (
             <>
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3 py-6">
+                <div className="flex items-center gap-3 pt-6">
                   <Avatar>
                     <AvatarImage
                       src={data?.user?.image as string | undefined}
@@ -106,9 +106,12 @@ const Header = () => {
                 <Button
                   variant="ghost"
                   className="w-full justify-start space-x-3 rounded-full"
+                  asChild
                 >
-                  <ScrollTextIcon size={16} />
-                  <span className="block">Meus Pedidos</span>
+                  <Link href="/my-orders">
+                    <ScrollTextIcon size={16} />
+                    <span className="block">Meus Pedidos</span>
+                  </Link>
                 </Button>
 
                 <Button
