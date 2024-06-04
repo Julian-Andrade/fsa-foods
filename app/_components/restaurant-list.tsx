@@ -1,15 +1,32 @@
+// Next
+import { getServerSession } from 'next-auth'
 // Prisma
 import { db } from '../_lib/prisma'
 // Components
 import RestaurantItem from './restaurant-item'
+// Libs
+import { authOptions } from '../_lib/auth'
 
 const RestaurantList = async () => {
+  const session = await getServerSession(authOptions)
+
   const restaurants = await db.restaurant.findMany({ take: 10 })
+
+  const userFavoriteRestaurants = await db.userFavoriteRestaurant.findMany({
+    where: { userId: session?.user?.id },
+  })
+
+  console.log(userFavoriteRestaurants)
 
   return (
     <div className="flex gap-3 overflow-x-auto pb-6 pt-6 [&::-webkit-scrollbar]:hidden">
       {restaurants.map((restaurant) => (
-        <RestaurantItem key={restaurant.id} restaurant={restaurant} />
+        <RestaurantItem
+          key={restaurant.id}
+          restaurant={restaurant}
+          userId={session?.user?.id}
+          userFavoriteRestaurants={userFavoriteRestaurants}
+        />
       ))}
     </div>
   )

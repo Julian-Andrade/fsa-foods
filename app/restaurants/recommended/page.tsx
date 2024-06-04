@@ -4,8 +4,21 @@ import { db } from '@/app/_lib/prisma'
 import RestaurantItem from '@/app/_components/restaurant-item'
 import BadgeTitle from '@/app/_components/badge-title'
 import Header from '@/app/_components/header'
+import { authOptions } from '@/app/_lib/auth'
+import { getServerSession } from 'next-auth'
 
 const RecommendedRestaurantsPage = async () => {
+  const session = await getServerSession(authOptions)
+
+  const userFavoriteRestaurants = await db.userFavoriteRestaurant.findMany({
+    where: {
+      userId: session?.user.id,
+    },
+    include: {
+      restaurant: true,
+    },
+  })
+
   const restaurants = await db.restaurant.findMany({})
 
   return (
@@ -25,6 +38,7 @@ const RecommendedRestaurantsPage = async () => {
             key={restaurant.id}
             restaurant={restaurant}
             className="min-w-full max-w-full"
+            userFavoriteRestaurants={userFavoriteRestaurants}
           />
         ))}
       </div>

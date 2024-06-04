@@ -81,8 +81,8 @@ const Header = () => {
             </>
           ) : (
             <>
-              <div className="flex items-center justify-between py-6">
-                <h2 className="font-semibold">Olá. Faça seu login!</h2>
+              <div className="flex items-center justify-between pt-6">
+                <h2 className="font-semibold">Olá, Faça seu login.</h2>
                 <Button onClick={handleSignIn}>Login</Button>
               </div>
             </>
@@ -117,9 +117,12 @@ const Header = () => {
                 <Button
                   variant="ghost"
                   className="w-full justify-start space-x-3 rounded-full"
+                  asChild
                 >
-                  <HeartIcon size={16} />
-                  <span className="block">Restaurantes Favoritos</span>
+                  <Link href="/my-favorite-restaurants">
+                    <HeartIcon size={16} />
+                    <span className="block">Restaurantes Favoritos</span>
+                  </Link>
                 </Button>
               </>
             )}
