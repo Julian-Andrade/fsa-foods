@@ -2,7 +2,7 @@
 
 import { db } from '@/app/_lib/prisma'
 
-const serachForRestaurant = async (search: string) => {
+const searchForRestaurants = async (search: string) => {
   const restaurants = await db.restaurant.findMany({
     where: {
       name: {
@@ -15,4 +15,4 @@ const serachForRestaurant = async (search: string) => {
   return restaurants
 }
 
-export default serachForRestaurant
+export default searchForRestaurants
