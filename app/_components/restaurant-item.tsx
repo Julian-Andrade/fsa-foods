@@ -3,22 +3,24 @@
 // Next
 import Image from 'next/image'
 import Link from 'next/link'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 // Prisma
 import { Restaurant, UserFavoriteRestaurant } from '@prisma/client'
 // Icon
 import { BikeIcon, HeartIcon, StarIcon, TimerIcon } from 'lucide-react'
 // Helper
 import { formatCurrencyToBrazil } from '../_helpers/price'
+import { isRestaurantFavorited } from '../_helpers/user-favorited-restaurants'
 // Component
 import { Button } from './ui/button'
 import { toast } from 'sonner'
 // Utils
 import { cn } from '../_lib/utils'
-// Actions
-import { toggleFavoriteRestaurant } from '../_actions/restaurant'
+// Hooks
+import useToggleFavoriteRestaurant from '../_hooks/use-toggle-favorite-restaurants'
 
 interface RestaurantItemProps {
-  userId?: string
   restaurant: Restaurant
   className?: string
   userFavoriteRestaurants: UserFavoriteRestaurant[]
@@ -27,29 +29,36 @@ interface RestaurantItemProps {
 const RestaurantItem = ({
   restaurant,
   className,
-  userId,
   userFavoriteRestaurants,
 }: RestaurantItemProps) => {
-  // const { data } = useSession()
+  const { data } = useSession()
 
-  const isFavorite = userFavoriteRestaurants.some(
-    (fav) => fav.restaurantId === restaurant.id,
+  const router = useRouter()
+
+  const isFavorite = isRestaurantFavorited(
+    restaurant.id,
+    userFavoriteRestaurants,
   )
 
-  const handleFavoriteClick = async () => {
-    if (!userId) return
-
-    try {
-      await toggleFavoriteRestaurant(userId, restaurant.id)
-      toast.success(
+  const { handleFavoriteClick } = useToggleFavoriteRestaurant({
+    restaurantId: restaurant.id,
+    userId: data?.user.id,
+    restaurantIsFavorited: isFavorite,
+    onSuccess: () =>
+      toast(
         isFavorite
           ? 'Restaurante removido dos favoritos.'
           : 'Restaurante favoritado.',
-      )
-    } catch (error) {
-      toast.error('Não foi possível favoritar o restaurante.')
-    }
-  }
+        {
+          action: {
+            label: 'Ver Favoritos',
+            onClick: () => router.push('/my-favorite-restaurants'),
+          },
+        },
+      ),
+    onError: () =>
+      toast.error('Houve um erro ao tentar favoritar o restaurante.'),
+  })
 
   return (
     <div className={cn('min-w-[266px] max-w-[266px]', className)}>
@@ -72,7 +81,7 @@ const RestaurantItem = ({
             <span className="text-xs font-bold">5.0</span>
           </div>
 
-          {userId && (
+          {data?.user.id && (
             <Button
               className={`absolute right-2 top-2 h-7 w-7 rounded-full bg-muted-foreground p-2 text-white ${isFavorite && 'bg-primary hover:bg-black'}`}
               onClick={handleFavoriteClick}

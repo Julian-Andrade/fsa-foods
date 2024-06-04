@@ -1,6 +1,7 @@
 // Next
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
+import { getServerSession } from 'next-auth'
 // Prisma
 import { db } from '@/app/_lib/prisma'
 // Components
@@ -11,6 +12,8 @@ import { StarIcon } from 'lucide-react'
 import BadgeTitle from '@/app/_components/badge-title'
 import ProductList from '@/app/_components/product-list'
 import CartBanner from './_components/cart-banner'
+// Libs
+import { authOptions } from '@/app/_lib/auth'
 
 interface RestaurantPageProps {
   params: {
@@ -60,9 +63,20 @@ const RestaurantPage = async ({ params: { id } }: RestaurantPageProps) => {
     return notFound()
   }
 
+  const session = await getServerSession(authOptions)
+
+  const userFavoriteRestaurants = await db.userFavoriteRestaurant.findMany({
+    where: {
+      userId: session?.user.id,
+    },
+  })
+
   return (
     <div>
-      <RestaurantImage restaurant={restaurant} />
+      <RestaurantImage
+        restaurant={restaurant}
+        userFavoriteRestaurants={userFavoriteRestaurants}
+      />
 
       {/* Restaurant Details */}
       <div className="relative z-50 mt-[-1.5rem] rounded-tl-3xl rounded-tr-3xl bg-[#ececec] p-5">
