@@ -42,9 +42,12 @@ const ProductPage = async ({ params: { id } }: ProductPageProps) => {
 
   return (
     <div>
-      <ProductImage product={product} />
+      <ProductImage product={JSON.parse(JSON.stringify(product))} />
 
-      <ProductDetails product={product} complementaryProducts={juices} />
+      <ProductDetails
+        product={JSON.parse(JSON.stringify(product))}
+        complementaryProducts={juices}
+      />
     </div>
   )
 }

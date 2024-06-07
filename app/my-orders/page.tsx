@@ -39,7 +39,10 @@ const MyOrdersPage = async () => {
 
         <div className="mt-6">
           {orders.map((order) => (
-            <OrderItem key={order.id} order={order} />
+            <OrderItem
+              key={order.id}
+              order={JSON.parse(JSON.stringify(order))}
+            />
           ))}
         </div>
       </div>

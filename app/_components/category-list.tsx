@@ -9,7 +9,10 @@ const CategoryList = async () => {
   return (
     <div className="flex gap-3 overflow-x-auto pb-6 pt-6 [&::-webkit-scrollbar]:hidden">
       {categories.map((category) => (
-        <CategoryItem key={category.id} category={category} />
+        <CategoryItem
+          key={category.id}
+          category={JSON.parse(JSON.stringify(category))}
+        />
       ))}
     </div>
   )
