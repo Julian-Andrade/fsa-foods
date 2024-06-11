@@ -53,45 +53,85 @@ const Home = async () => {
   const { products, burguerCategory, pizzasCategory } = await fetch()
 
   return (
-    <div className="container">
-      <Header />
+    <>
+      <div className="container">
+        <Header />
+      </div>
 
-      <Search />
+      <div className="hidden md:mt-6 md:block md:w-full">
+        <div className="relative">
+          <PromoBanner
+            src={'/banner_promo_03.png'}
+            alt="até 30% de desconto em pizzas."
+          />
 
-      <CategoryList />
+          <div className="absolute left-[9%] top-[45%]">
+            <Search />
+          </div>
+        </div>
+      </div>
 
-      <Link href={`/categories/${pizzasCategory?.id}/products`}>
-        <PromoBanner
-          src={'/banner_promo_01.png'}
-          alt="até 30% de desconto em pizzas."
+      <div className="container">
+        <div className="md:hidden">
+          <Search />
+        </div>
+
+        <CategoryList />
+
+        <Link
+          className="md:hidden"
+          href={`/categories/${pizzasCategory?.id}/products`}
+        >
+          <PromoBanner
+            src={'/banner_promo_01.png'}
+            alt="até 30% de desconto em pizzas."
+          />
+        </Link>
+
+        <BadgeTitle
+          title="Produtos Recomendados"
+          variant="button"
+          nameButton="Ver todos"
+          href={`/products/recommended`}
         />
-      </Link>
 
-      <BadgeTitle
-        title="Produtos Recomendados"
-        variant="button"
-        nameButton="Ver todos"
-        href={`/products/recommended`}
-      />
+        <ProductList products={products} />
 
-      <ProductList products={products} />
+        <div className="hidden md:mb-6 md:grid md:grid-cols-2 md:gap-4">
+          <Link href={`/categories/${pizzasCategory?.id}/products`}>
+            <PromoBanner
+              src={'/banner_promo_01.png'}
+              alt="até 30% de desconto em pizzas."
+            />
+          </Link>
+          <Link href={`/categories/${burguerCategory?.id}/products`}>
+            <PromoBanner
+              src={'/banner_promo_02.png'}
+              alt="a partir de R$ 17,90 em lanches."
+            />
+          </Link>
+        </div>
 
-      <Link href={`/categories/${burguerCategory?.id}/products`}>
-        <PromoBanner
-          src={'/banner_promo_02.png'}
-          alt="a partir de R$ 17,90 em lanches."
+        <Link
+          className="md:hidden"
+          href={`/categories/${burguerCategory?.id}/products`}
+        >
+          <PromoBanner
+            src={'/banner_promo_02.png'}
+            alt="a partir de R$ 17,90 em lanches."
+          />
+        </Link>
+
+        <BadgeTitle
+          title="Restaurantes Recomendados"
+          variant="button"
+          nameButton="Ver todos"
+          href={`/restaurants/recommended`}
         />
-      </Link>
 
-      <BadgeTitle
-        title="Restaurantes Recomendados"
-        variant="button"
-        nameButton="Ver todos"
-        href={`/restaurants/recommended`}
-      />
-
-      <RestaurantList />
-    </div>
+        <RestaurantList />
+      </div>
+    </>
   )
 }
 

@@ -32,11 +32,15 @@ const Search = () => {
     <form className="flex gap-2 pt-6" onSubmit={handleSearchSubmit}>
       <Input
         placeholder="Buscar restaurantes"
-        className="border-none"
+        className="border-none md:w-80"
         onChange={handleSearch}
         value={search}
       />
-      <Button size="icon" type="submit">
+      <Button
+        size="icon"
+        type="submit"
+        className="md:bg-orange-500 hover:md:bg-orange-400"
+      >
         <SearchIcon size={18} />
       </Button>
     </form>

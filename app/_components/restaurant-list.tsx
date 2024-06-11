@@ -10,7 +10,7 @@ import { authOptions } from '../_lib/auth'
 const RestaurantList = async () => {
   const session = await getServerSession(authOptions)
 
-  const restaurants = await db.restaurant.findMany({ take: 10 })
+  const restaurants = await db.restaurant.findMany({ take: 5 })
 
   const userFavoriteRestaurants = await db.userFavoriteRestaurant.findMany({
     where: { userId: session?.user?.id },
