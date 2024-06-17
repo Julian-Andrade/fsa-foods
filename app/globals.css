@@ -61,3 +61,11 @@
 .container {
   @apply mx-auto w-full px-5;
 }
+
+.nav-link {
+  @apply w-full justify-start space-x-3 rounded-full;
+}
+
+.nav-link.active {
+  @apply bg-primary text-white;
+}

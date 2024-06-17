@@ -4,6 +4,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { signIn, signOut, useSession } from 'next-auth/react'
+import { usePathname } from 'next/navigation'
 // Components
 import {
   HeartIcon,
@@ -30,6 +31,8 @@ interface HeaderProps {
 
 const Header = ({ isSearchBar }: HeaderProps) => {
   const { data, status } = useSession()
+
+  const pathname = usePathname()
 
   const handleSignIn = () => {
     signIn()
@@ -107,17 +110,20 @@ const Header = ({ isSearchBar }: HeaderProps) => {
           <div className="space-y-3">
             <Button
               variant="ghost"
-              className="w-full justify-start space-x-3 rounded-full"
+              className={`nav-link ${pathname === '/' ? 'active' : ''}`}
+              asChild
             >
-              <HomeIcon size={16} />
-              <span className="block">Início</span>
+              <Link href="/">
+                <HomeIcon size={16} />
+                <span className="block">Início</span>
+              </Link>
             </Button>
 
             {data?.user && (
               <>
                 <Button
                   variant="ghost"
-                  className="w-full justify-start space-x-3 rounded-full"
+                  className={`nav-link ${pathname === '/my-orders' ? 'active' : ''}`}
                   asChild
                 >
                   <Link href="/my-orders">
@@ -128,7 +134,7 @@ const Header = ({ isSearchBar }: HeaderProps) => {
 
                 <Button
                   variant="ghost"
-                  className="w-full justify-start space-x-3 rounded-full"
+                  className={`nav-link ${pathname === '/my-favorite-restaurants' ? 'active' : ''}`}
                   asChild
                 >
                   <Link href="/my-favorite-restaurants">
