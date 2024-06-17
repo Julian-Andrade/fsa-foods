@@ -57,16 +57,16 @@ const RestaurantImage = ({
   })
 
   return (
-    <div className="relative h-[215px] w-full">
+    <div className="relative h-[215px] w-full md:h-full">
       <Image
         src={restaurant.imageUrl}
         alt={restaurant.name}
         fill
-        className="object-cover"
+        className="object-cover md:rounded-lg"
       />
 
       <Button
-        className="absolute left-4 top-4 rounded-full bg-white text-foreground hover:text-white"
+        className="absolute left-4 top-4 rounded-full bg-white text-foreground hover:text-white md:hidden"
         size="icon"
         onClick={handleBackClick}
       >

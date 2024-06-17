@@ -3,13 +3,13 @@ import Link from 'next/link'
 // Prisma
 import { db } from './_lib/prisma'
 // Components
-import Header from './_components/header'
 import Search from './_components/search'
 import PromoBanner from './_components/promo-banner'
 import CategoryList from './_components/category-list'
 import ProductList from './_components/product-list'
 import BadgeTitle from './_components/badge-title'
 import RestaurantList from './_components/restaurant-list'
+import Header from './_components/header'
 
 const fetch = async () => {
   const getProducts = await db.product.findMany({
@@ -54,19 +54,17 @@ const Home = async () => {
 
   return (
     <>
-      <div className="container">
-        <Header />
-      </div>
+      <Header />
 
-      <div className="hidden md:mt-6 md:block md:w-full">
+      <div className="hidden md:block md:w-full">
         <div className="relative">
           <PromoBanner
             src={'/banner_promo_03.png'}
-            alt="até 30% de desconto em pizzas."
+            alt="está com fome? com apenas alguns cliques...."
           />
 
-          <div className="absolute left-[9%] top-[45%]">
-            <Search />
+          <div className="absolute left-[9%] top-[45%] w-1/2">
+            <Search className="bg-orange-400 hover:bg-orange-500" />
           </div>
         </div>
       </div>

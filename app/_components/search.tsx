@@ -10,7 +10,11 @@ import { Input } from './ui/input'
 // Icon
 import { SearchIcon } from 'lucide-react'
 
-const Search = () => {
+interface SearchProps {
+  className?: string
+}
+
+const Search = ({ className }: SearchProps) => {
   const router = useRouter()
   const [search, setSearch] = useState('')
 
@@ -29,18 +33,14 @@ const Search = () => {
   }
 
   return (
-    <form className="flex gap-2 pt-6" onSubmit={handleSearchSubmit}>
+    <form className="flex justify-between gap-2" onSubmit={handleSearchSubmit}>
       <Input
         placeholder="Buscar restaurantes"
-        className="border-none md:w-80"
+        className="w-full border-none"
         onChange={handleSearch}
         value={search}
       />
-      <Button
-        size="icon"
-        type="submit"
-        className="md:bg-orange-500 hover:md:bg-orange-400"
-      >
+      <Button size="icon" type="submit" className={className}>
         <SearchIcon size={18} />
       </Button>
     </form>

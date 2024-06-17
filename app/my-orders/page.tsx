@@ -31,22 +31,24 @@ const MyOrdersPage = async () => {
   })
 
   return (
-    <div className="container">
-      <Header />
+    <>
+      <Header isSearchBar={true} />
 
-      <div className="py-6">
-        <h2 className="font-semibold">Meus Pedidos</h2>
+      <div className="container">
+        <div className="py-6">
+          <h2 className="font-semibold">Meus Pedidos</h2>
 
-        <div className="mt-6">
-          {orders.map((order) => (
-            <OrderItem
-              key={order.id}
-              order={JSON.parse(JSON.stringify(order))}
-            />
-          ))}
+          <div className="mt-6 md:grid md:grid-cols-2 md:gap-6">
+            {orders.map((order) => (
+              <OrderItem
+                key={order.id}
+                order={JSON.parse(JSON.stringify(order))}
+              />
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

@@ -99,7 +99,7 @@ const ProductDetails = ({
 
   return (
     <>
-      <div className="relative z-50 mt-[-1.5rem] rounded-tl-3xl rounded-tr-3xl bg-[#ececec] p-5">
+      <div className="relative z-50 mt-[-1.5rem] rounded-tl-3xl rounded-tr-3xl bg-[#ececec] p-5 md:z-0 md:mt-0 md:block md:rounded-lg md:p-6">
         {/* Produto */}
         <div className="flex items-center gap-2">
           <div className="relative h-6 w-6">
@@ -164,7 +164,7 @@ const ProductDetails = ({
         </div>
 
         {/* Outra Categoria */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 md:hidden">
           <h3 className="mt-6 font-bold">Bebidas</h3>
           <p className="text-sm text-muted-foreground">
             Adicione uma bebida ao seu pedido

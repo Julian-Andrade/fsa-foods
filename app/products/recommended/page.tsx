@@ -23,26 +23,28 @@ const RecommendedProductsPage = async () => {
   })
 
   return (
-    <div className="container">
-      <Header />
+    <>
+      <Header isSearchBar={true} />
 
-      <BadgeTitle
-        title="Produtos Favoritos"
-        variant="noButton"
-        href="/"
-        className="mt-6"
-      />
+      <div className="container">
+        <BadgeTitle
+          title="Produtos Favoritos"
+          variant="noButton"
+          href="/"
+          className="mt-6"
+        />
 
-      <div className="mt-6 grid w-full grid-cols-2 gap-4">
-        {products.map((product) => (
-          <ProductItem
-            key={product.id}
-            product={JSON.parse(JSON.stringify(product))}
-            className="min-w-full max-w-full"
-          />
-        ))}
+        <div className="mt-6 grid w-full grid-cols-2 gap-4 md:grid-cols-6">
+          {products.map((product) => (
+            <ProductItem
+              key={product.id}
+              product={JSON.parse(JSON.stringify(product))}
+              className="min-w-full max-w-full"
+            />
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

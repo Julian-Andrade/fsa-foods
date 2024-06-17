@@ -22,8 +22,13 @@ import {
 } from './ui/sheet'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Separator } from './ui/separator'
+import Search from './search'
 
-const Header = () => {
+interface HeaderProps {
+  isSearchBar?: boolean
+}
+
+const Header = ({ isSearchBar }: HeaderProps) => {
   const { data, status } = useSession()
 
   const handleSignIn = () => {
@@ -35,10 +40,16 @@ const Header = () => {
   }
 
   return (
-    <div className="flex justify-between pt-6">
+    <div className="flex justify-between pb-6 pt-6 min-[420px]:px-5 md:border-b md:border-solid md:border-b-zinc-300 md:px-5">
       <Link href="/">
         <Image src="/logo.png" alt="FSA Foods" height={30} width={120} />
       </Link>
+
+      {isSearchBar && (
+        <div className="hidden w-1/2 md:block">
+          <Search />
+        </div>
+      )}
 
       <Sheet>
         <SheetTrigger>

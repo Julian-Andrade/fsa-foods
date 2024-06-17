@@ -6,6 +6,7 @@ import { db } from '@/app/_lib/prisma'
 import Header from '@/app/_components/header'
 import BadgeTitle from '@/app/_components/badge-title'
 import ProductItem from '@/app/_components/product-item'
+import RestaurantList from '@/app/_components/restaurant-list'
 
 interface CategoriesPageProps {
   params: {
@@ -20,6 +21,7 @@ const CategoriesPage = async ({ params: { id } }: CategoriesPageProps) => {
     },
     include: {
       product: {
+        take: 12,
         include: {
           restaurant: {
             select: {
@@ -36,26 +38,38 @@ const CategoriesPage = async ({ params: { id } }: CategoriesPageProps) => {
   }
 
   return (
-    <div className="container">
-      <Header />
+    <>
+      <Header isSearchBar={true} />
 
-      <BadgeTitle
-        title={category.name}
-        variant="noButton"
-        href="/"
-        className="mt-6"
-      />
+      <div className="container">
+        <BadgeTitle
+          title={category.name}
+          variant="noButton"
+          href="/"
+          className="mt-6"
+        />
 
-      <div className="mt-6 grid grid-cols-2 gap-6">
-        {category.product.map((category) => (
-          <ProductItem
-            key={category.id}
-            product={JSON.parse(JSON.stringify(category))}
-            className="min-w-full max-w-full"
+        <div className="mt-6 grid grid-cols-2 gap-6 md:grid-cols-6">
+          {category.product.map((category) => (
+            <ProductItem
+              key={category.id}
+              product={JSON.parse(JSON.stringify(category))}
+              className="min-w-full max-w-full"
+            />
+          ))}
+        </div>
+
+        <div className="max-[768px]:hidden">
+          <BadgeTitle
+            title="Restaurantes"
+            variant="noButton"
+            href="/"
+            className="mt-6"
           />
-        ))}
+          <RestaurantList />
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

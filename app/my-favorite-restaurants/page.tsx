@@ -27,33 +27,35 @@ const MyFavoriteRestaurantsPage = async () => {
   })
 
   return (
-    <div className="container">
-      <Header />
+    <>
+      <Header isSearchBar={true} />
 
-      <BadgeTitle
-        title="Restaurantes Favoritos"
-        variant="noButton"
-        href="/"
-        className="mt-6"
-      />
+      <div className="container">
+        <BadgeTitle
+          title="Restaurantes Favoritos"
+          variant="noButton"
+          href="/"
+          className="mt-6"
+        />
 
-      <div className="mt-6 flex w-full flex-col gap-4">
-        {userFavoriteRestaurants.length > 0 ? (
-          userFavoriteRestaurants.map(({ restaurant }) => (
-            <RestaurantItem
-              key={restaurant.id}
-              restaurant={JSON.parse(JSON.stringify(restaurant))}
-              className="min-w-full max-w-full"
-              userFavoriteRestaurants={userFavoriteRestaurants}
-            />
-          ))
-        ) : (
-          <h3 className="text-muted-foreground">
-            Você ainda não possui restaurantes favoritos
-          </h3>
-        )}
+        <div className="mt-6 flex w-full flex-col gap-4">
+          {userFavoriteRestaurants.length > 0 ? (
+            userFavoriteRestaurants.map(({ restaurant }) => (
+              <RestaurantItem
+                key={restaurant.id}
+                restaurant={JSON.parse(JSON.stringify(restaurant))}
+                className="min-w-full max-w-full"
+                userFavoriteRestaurants={userFavoriteRestaurants}
+              />
+            ))
+          ) : (
+            <h3 className="text-muted-foreground">
+              Você ainda não possui restaurantes favoritos
+            </h3>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

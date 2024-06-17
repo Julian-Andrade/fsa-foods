@@ -37,9 +37,6 @@ const RestaurantDetails = ({ restaurant }: RestaurantDetailsProps) => {
 
       {/* Informações de Entrega */}
       <DeliveryInfo restaurant={restaurant} />
-
-      {/* Badge Infos */}
-      <div></div>
     </div>
   )
 }
