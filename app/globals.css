@@ -59,7 +59,7 @@
 }
 
 .container {
-  @apply mx-auto w-full px-5;
+  @apply mx-auto w-full max-w-[1200px] px-5;
 }
 
 .nav-link {
@@ -68,4 +68,18 @@
 
 .nav-link.active {
   @apply bg-primary text-white;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #eeeeee;
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: crimson;
+  border-radius: 14px;
 }

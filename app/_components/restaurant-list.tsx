@@ -6,6 +6,8 @@ import { db } from '../_lib/prisma'
 import RestaurantItem from './restaurant-item'
 // Libs
 import { authOptions } from '../_lib/auth'
+import { CardContent } from './ui/card'
+import { Carousel, CarouselContent, CarouselItem } from './ui/carousel'
 
 const RestaurantList = async () => {
   const session = await getServerSession(authOptions)
@@ -17,15 +19,30 @@ const RestaurantList = async () => {
   })
 
   return (
-    <div className="flex gap-3 overflow-x-auto pb-6 pt-6 [&::-webkit-scrollbar]:hidden">
-      {restaurants.map((restaurant) => (
-        <RestaurantItem
-          key={restaurant.id}
-          restaurant={JSON.parse(JSON.stringify(restaurant))}
-          userFavoriteRestaurants={userFavoriteRestaurants}
-        />
-      ))}
-    </div>
+    <>
+      <Carousel
+        className="pt-6"
+        opts={{
+          align: 'start',
+        }}
+      >
+        <CarouselContent>
+          {restaurants.map((restaurant) => (
+            <CarouselItem
+              key={restaurant.id}
+              className="max-[1000px]:basis-72 md:basis-72"
+            >
+              <CardContent className="flex items-center justify-center">
+                <RestaurantItem
+                  restaurant={JSON.parse(JSON.stringify(restaurant))}
+                  userFavoriteRestaurants={userFavoriteRestaurants}
+                />
+              </CardContent>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+      </Carousel>
+    </>
   )
 }
 
