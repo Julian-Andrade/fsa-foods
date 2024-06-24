@@ -22,27 +22,29 @@ const RecommendedRestaurantsPage = async () => {
   const restaurants = await db.restaurant.findMany({})
 
   return (
-    <div className="container">
-      <Header />
+    <>
+      <Header isSearchBar={true} />
 
-      <BadgeTitle
-        title="Restaurantes Favoritos"
-        variant="noButton"
-        href="/"
-        className="mt-6"
-      />
+      <div className="container">
+        <BadgeTitle
+          title="Restaurantes Recomendados"
+          variant="noButton"
+          href="/"
+          className="mt-6"
+        />
 
-      <div className="mt-6 flex w-full flex-col gap-4">
-        {restaurants.map((restaurant) => (
-          <RestaurantItem
-            key={restaurant.id}
-            restaurant={JSON.parse(JSON.stringify(restaurant))}
-            className="min-w-full max-w-full"
-            userFavoriteRestaurants={userFavoriteRestaurants}
-          />
-        ))}
+        <div className="mt-6 flex w-full flex-col gap-4 md:grid md:grid-cols-4">
+          {restaurants.map((restaurant) => (
+            <RestaurantItem
+              key={restaurant.id}
+              restaurant={JSON.parse(JSON.stringify(restaurant))}
+              className="min-w-full max-w-full"
+              userFavoriteRestaurants={userFavoriteRestaurants}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

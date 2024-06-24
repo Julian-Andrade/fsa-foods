@@ -3,10 +3,12 @@
 // Next
 import Image from 'next/image'
 import Link from 'next/link'
-import { signIn, signOut, useSession } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import { usePathname } from 'next/navigation'
 // Components
 import {
+  Chrome,
+  Github,
   HeartIcon,
   HomeIcon,
   LogOutIcon,
@@ -21,9 +23,18 @@ import {
   SheetTitle,
   SheetTrigger,
 } from './ui/sheet'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from './ui/dialog'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Separator } from './ui/separator'
 import Search from './search'
+import Login from './login'
 
 interface HeaderProps {
   isSearchBar?: boolean
@@ -33,10 +44,6 @@ const Header = ({ isSearchBar }: HeaderProps) => {
   const { data, status } = useSession()
 
   const pathname = usePathname()
-
-  const handleSignIn = () => {
-    signIn()
-  }
 
   const handleSignOut = () => {
     signOut()
@@ -98,7 +105,37 @@ const Header = ({ isSearchBar }: HeaderProps) => {
             <>
               <div className="flex items-center justify-between pt-6">
                 <h2 className="font-semibold">Olá, Faça seu login.</h2>
-                <Button onClick={handleSignIn}>Login</Button>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button>Login</Button>
+                  </DialogTrigger>
+                  <DialogContent className="flex max-w-[318px] flex-col items-center justify-center rounded-lg p-10">
+                    <DialogHeader>
+                      <DialogTitle className="text-center font-semibold">
+                        Efetue o login na plataforma
+                      </DialogTitle>
+                      <DialogDescription className="text-center">
+                        Conecte-se utilizando sua conta do Google ou GitHub.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="flex gap-2">
+                      <Link href="/">
+                        <Login
+                          icon={<Chrome />}
+                          name="Google"
+                          provider="google"
+                        />
+                      </Link>
+                      <Link href="/">
+                        <Login
+                          icon={<Github />}
+                          name="GitHub"
+                          provider="github"
+                        />
+                      </Link>
+                    </div>
+                  </DialogContent>
+                </Dialog>
               </div>
             </>
           )}
